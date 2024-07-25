@@ -11,6 +11,6 @@ public class ChannelTicketPushService {
     private AccessDetailsRepository accessDetailsRepository;
 
     public void call(){
-        System.out.println(accessDetailsRepository.findByRoleId(1));
+//        System.out.println(accessDetailsRepository.findByRoleId(1));
     }
 }
