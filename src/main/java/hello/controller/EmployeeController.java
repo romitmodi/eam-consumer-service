@@ -17,15 +17,19 @@ import hello.repository.AccessDetailsRepository;
 import hello.repository.EmployeeRoleRepository;
 import hello.repository.RequestTableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -39,11 +43,9 @@ public class EmployeeController {
 
     @Autowired
     EmployeeRoleRepository employeeRoleRepository;
-    private WebClient webClient;
-
     @Autowired
     RequestTableRepository requestTableRepository;
-
+    private WebClient webClient;
 
     @GetMapping()
     public void saveEmployee() throws TimeoutException {
@@ -54,7 +56,7 @@ public class EmployeeController {
 
     @GetMapping()
     public ResponseEntity<String> updateEmployee(@RequestParam List<String> val) {
-        val.forEach(value->{
+        val.forEach(value -> {
             requestTableRepository.updateStudentName(value, "done");
         });
 
@@ -83,7 +85,7 @@ public class EmployeeController {
                     }
                     System.out.println(mapFromString.get("role"));
                     Optional<EmployeeRole> employeeRole = employeeRoleRepository.findByName(ERoleEmployee.findByName(mapFromString.get("role").toString()));
-                    List<AccessDetails> accessDetails  = accessDetailsRepository.findByRoleId(employeeRole.get().getId());
+                    List<AccessDetails> accessDetails = accessDetailsRepository.findByRoleId(employeeRole.get().getId());
 
 
                     WebClient webClient = WebClient.create("https://team-vikings.atlassian.net");
@@ -97,7 +99,6 @@ public class EmployeeController {
                             .body(Mono.just(accessDetails.get(0).getJsonStructure()), Object.class)
                             .retrieve()
                             .bodyToMono(Response.class);
-
 
 
                     response.subscribe();

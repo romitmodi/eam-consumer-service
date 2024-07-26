@@ -24,7 +24,7 @@ public class EmployeeRole {
     @Column(name = "name")
     private ERoleEmployee name;
 
-	public EmployeeRole() {
+    public EmployeeRole() {
 
     }
 

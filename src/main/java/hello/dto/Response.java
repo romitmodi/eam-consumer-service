@@ -1,9 +1,9 @@
 package hello.dto;
 
 public class Response {
-private String id;
-private String key;
-private String self;
+    private String id;
+    private String key;
+    private String self;
 //    '{
 //        "id": "10004",
 //            "key": "VIKHACK-5",

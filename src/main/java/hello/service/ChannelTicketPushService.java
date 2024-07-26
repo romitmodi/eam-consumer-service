@@ -10,7 +10,7 @@ public class ChannelTicketPushService {
     @Autowired
     private AccessDetailsRepository accessDetailsRepository;
 
-    public void call(){
+    public void call() {
 //        System.out.println(accessDetailsRepository.findByRoleId(1));
     }
 }

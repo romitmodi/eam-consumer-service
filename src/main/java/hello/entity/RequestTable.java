@@ -1,6 +1,5 @@
 package hello.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import javax.persistence.*;

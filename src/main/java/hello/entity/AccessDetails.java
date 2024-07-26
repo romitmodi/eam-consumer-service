@@ -1,6 +1,5 @@
 package hello.entity;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.Getter;
 import lombok.Setter;
