@@ -12,11 +12,14 @@ import hello.dto.ERoleEmployee;
 import hello.dto.Response;
 import hello.entity.AccessDetails;
 import hello.entity.EmployeeRole;
+import hello.entity.RequestTable;
 import hello.repository.AccessDetailsRepository;
 import hello.repository.EmployeeRoleRepository;
+import hello.repository.RequestTableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -38,6 +41,9 @@ public class EmployeeController {
     EmployeeRoleRepository employeeRoleRepository;
     private WebClient webClient;
 
+    @Autowired
+    RequestTableRepository requestTableRepository;
+
 
     @GetMapping()
     public void saveEmployee() throws TimeoutException {
@@ -45,6 +51,18 @@ public class EmployeeController {
         String subscriptionId = "ticketCreateUpdate-sub";
         this.subscribeAsyncExample(projectId, subscriptionId);
     }
+
+    @GetMapping()
+    public ResponseEntity<String> updateEmployee(@RequestParam List<String> val) {
+        val.forEach(value->{
+            requestTableRepository.updateStudentName(value, "done");
+        });
+
+//        call jira here
+
+        return ResponseEntity.ok("Update successfully!");
+    }
+
 
     public void subscribeAsyncExample(String projectId, String subscriptionId) throws TimeoutException {
         ProjectSubscriptionName subscriptionName =
@@ -80,7 +98,13 @@ public class EmployeeController {
                             .retrieve()
                             .bodyToMono(Response.class);
 
-                    response.subscribe(System.out::println);
+
+
+                    response.subscribe();
+
+// doubt in this save
+                    RequestTable requestTable = RequestTable.builder().JiraId("abdds").status("CREATED").build();
+                    requestTableRepository.save(requestTable);
                     consumer.ack();
                 };
 
